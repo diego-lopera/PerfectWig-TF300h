@@ -1,0 +1,92 @@
+/* Barra de información superior */
+.containerNavbarInfo {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background-color: #000;
+    background: #000;
+}
+
+.containerSocialMediaNavbarInfo {
+    padding-top: 3px;
+}
+
+.containerSocialMediaNavbarInfo img {
+    width: 23px;
+}
+
+.containerLabelNavbarInfo {
+    margin: 0 20%;
+    align-content: center;
+}
+.containerNavbarInfo label {
+    color: #fff;
+    font-weight: 549;
+}
+
+.containerLogoNavbarInfo {
+    padding-top: 3px;
+}
+
+.containerLogoNavbarInfo img {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+
+
+/* NavBar */
+
+.containerNavBar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 0 0 25px 25px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);
+}
+
+.containerNavBarTitle {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 0;
+
+    #navBarTitle {
+        font-weight: 550;
+        font-size: 35px;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    #navBarSubTitle {
+        font-weight: 560;
+        font-size: smaller;
+    }
+}
+
+.containerNavBarMenu {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px 0 20px 0;
+
+    #navBarMenuRow {
+        width: 70%;
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 0;
+    }
+
+    #navBarMenuRow a {
+        color: #282224;
+        text-decoration: none;
+        font-weight: 550;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    #navBarMenuRow a:hover {
+        color: #6a6767;
+    }
+}

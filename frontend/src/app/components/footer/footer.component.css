@@ -1,0 +1,33 @@
+/* Footer */
+
+footer {
+    display: flex;
+    justify-content: space-around;
+    background-color: #282224;
+    padding: 41px 0;
+
+    .logoFooter {
+        width: 85px;
+        height: 85px;
+        border-radius: 50%;
+    }
+
+    #textFooter {
+        display: flex;
+        flex-direction: column;
+        color: #fff;
+    }
+
+    .containerSocialMediaFooter {
+        text-align: end;
+    }
+
+    .containerSocialMediaFooter img {
+        width: 35px;
+    }
+
+    #WhatsAppFooter {
+        width: 32px;
+    }
+
+}

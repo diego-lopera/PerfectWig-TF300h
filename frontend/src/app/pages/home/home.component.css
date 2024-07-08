@@ -1,0 +1,21 @@
+.containerBanner {
+    width: 99%;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 40px;
+    box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.25);
+    margin: 25px auto;
+
+    display: flex;
+    justify-content: space-around;
+
+    #imageLeftBanner, #imageRightBanner {
+        width: 20vw;
+        height: 100%;
+    }
+    
+    #imageTitleBanner {
+        width: 20vw;
+        height: max-content;
+        align-self: center;
+    }
+}
