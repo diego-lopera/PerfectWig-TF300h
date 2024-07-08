@@ -1,0 +1,43 @@
+.containerLabelSeccionProductos {
+    width: 80%;
+display: flex;
+justify-content: center;
+background-color: #ffbe9878;
+margin: 20px auto;
+border-radius: 40px;
+box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.25);
+
+}
+
+.labelSeccionProductos {
+    font-weight: 550;
+    font-size: larger;
+    padding: 10px 0;
+}
+
+.containerSectionProducts {
+    width: 80%;
+    margin: 15px auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+.containerProducts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: 550;
+    font-size: large;
+    width: 30%;
+}
+
+.containerProducts img {
+    width: 80%;
+    height: 80%;
+    border-radius: 20px;
+    margin: 10px 0;
+}
+
+/* .containerProducts img:hover {
+    background-image: ;
+} */
