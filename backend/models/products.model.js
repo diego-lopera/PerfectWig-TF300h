@@ -16,6 +16,9 @@ const productSchema = new schema({
     stock : {
         type:Number,
         require:true
+    },
+    descripcion : {
+        type:String
     }
 });
 

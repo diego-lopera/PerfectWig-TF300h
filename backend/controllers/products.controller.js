@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { productModel } from '../models/products.model.js';
 
 export const getProducts = async (req, res) => {
@@ -18,7 +17,7 @@ export const getProducts = async (req, res) => {
 export const postProducts = async (req, res) => {
     // return res.send('POST OK');
     console.log(req.body);
-    const { nombre, precio, imagen, stock } = req.body;
+    const { nombre, precio, imagen, stock, descripcion } = req.body;
     if (!nombre || !precio || !stock) {
         return res.status(400).json({ message: 'Información incompleta' });
     }
