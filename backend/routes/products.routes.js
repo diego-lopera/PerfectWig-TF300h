@@ -4,9 +4,9 @@ import auth from '../middlewares/auth.js';
 
 const productsRouter = express.Router();
 
-productsRouter.get('/',auth(),getProducts);
+productsRouter.get('/',getProducts);
 
-productsRouter.get('/',auth(), getProductById);
+productsRouter.get('/', getProductById);
 
 productsRouter.post('/',auth('admin'),postProducts);
 
