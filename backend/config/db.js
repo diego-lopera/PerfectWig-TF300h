@@ -1,13 +1,10 @@
-/* eslint-disable no-undef */
 import mongoose from 'mongoose';
 
-const connDbMongo = async () => {
-    await mongoose.connect(process.env.CONN_DB, {});
+export async function connDbMongo (){  
     try {
-        console.log('connected')
+        await mongoose.connect(process.env.CONN_DB, {})
+        console.log('Conectado a base de datos');
     } catch (error) {
-        console.error('Error: ', error.message);
+        console.error('Error al conectar: ', error);
     }
-};
-
-export default connDbMongo;
+}
