@@ -25,20 +25,6 @@ export const getUsers = async (req, res) => {
             datos: error
         })
     }
-
-
-  // return res.send('GET OK');
-  try {
-    let users = await userModel.find();
-    if (users.length === 0) {
-      return res.status(404).json({ message: "No se encontraron usuarios" });
-    }
-    return res.status(200).send(users);
-  } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Error de servidor: " + error.message });
-  }
 };
 
 export const postUsers = async (req, response) => {

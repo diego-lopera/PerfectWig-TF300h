@@ -1,7 +1,7 @@
 import { productModel } from '../models/products.model.js';
+import bcrypt from 'bcryptjs';
 
 export const getProducts = async (req, res) => {
-    // return res.send('GET OK');
     try {
         let products = await productModel.find();
         if (products.length === 0) {
@@ -14,9 +14,33 @@ export const getProducts = async (req, res) => {
     }
 };
 
+export const getProductById = async (req, res) => {
+    try {
+        let idProduct = req.params._id;
+        if (idProduct === ':id') {
+            return res.json({
+                mensaje: 'Debe ser un id valido',
+                id: idProduct
+            })
+        }
+        const productById = await productModel.findById(idProduct);
+        if (!productById) {
+            return res.status(200).json({
+                estado: '200',
+                mensaje: "No se encontró el producto",
+                dato: userById
+            })
+        }
+    } catch (error) {
+        return res.status(400).json({
+            estado: '400',
+            mensaje: 'Ocurrió un problema al buscar el producto',
+            datos: error,
+        })
+    }
+};
+
 export const postProducts = async (req, res) => {
-    // return res.send('POST OK');
-    console.log(req.body);
     const { nombre, precio, imagen, stock, descripcion } = req.body;
     if (!nombre || !precio || !stock) {
         return res.status(400).json({ message: 'Información incompleta' });

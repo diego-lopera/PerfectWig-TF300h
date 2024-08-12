@@ -1,14 +1,17 @@
 import express from 'express';
-import { getProducts, postProducts, deleteProductById, putProductById } from '../controllers/products.controller.js';
+import { getProducts, postProducts, deleteProductById, putProductById, getProductById } from '../controllers/products.controller.js';
+import auth from '../middlewares/auth.js';
 
 const productsRouter = express.Router();
 
-productsRouter.get('/obtenerProductos',getProducts);
+productsRouter.get('/',auth(),getProducts);
 
-productsRouter.post('/registrarProductos',postProducts);
+productsRouter.get('/',auth(), getProductById);
 
-productsRouter.delete('/eliminarProducto/:_id',deleteProductById);
+productsRouter.post('/',auth('admin'),postProducts);
 
-productsRouter.put('/actualizarProducto/:_id',putProductById);
+productsRouter.delete('/:_id',auth('admin'),deleteProductById);
+
+productsRouter.put('/:_id',auth('admin'),putProductById);
 
 export default productsRouter;

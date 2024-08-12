@@ -14,7 +14,7 @@ const port = process.env.PORT || 9000;
 connDbMongo();
 
 app.use(express.json());
-app.use('/', productsRouter);
+app.use('/products', productsRouter);
 app.use('/users',usersRouter);
 app.use('/login', loginRouter);
 
