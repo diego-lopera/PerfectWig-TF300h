@@ -6,7 +6,7 @@ const productsRouter = express.Router();
 
 productsRouter.get('/',getProducts);
 
-productsRouter.get('/', getProductById);
+productsRouter.get('/:_id', getProductById);
 
 productsRouter.post('/',auth('admin'),postProducts);
 
