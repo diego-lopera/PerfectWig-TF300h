@@ -2,146 +2,127 @@ import { userModel } from "../models/users.model.js";
 import bcrypt from "bcryptjs";
 
 export const getUsers = async (req, res) => {
-
     try {
-        const users = await userModel.find();
+        const users =  await userModel.find();
         if (users.length === 0) {
             return res.status(200).json({
                 estado: '200',
                 mensaje: 'No se encontraron usuarios en la base de datos',
                 datos: null
-            });
+            })
         }
         return res.status(200).json({
             estado: '200',
-            mensaje: 'Usuarios encontrados: ',
+            mensaje: 'Estos son todos los usuarios encontrados',
             cantidadUsuarios: users.length,
             usuarios: users
-        });
+        })
     } catch (error) {
         return res.status(400).json({
             estado: '400',
-            mensaje: 'Ocurrió un problema al encontrar usuarios',
+            mensaje: 'Ocurrió un problema al buscar los usuarios',
             datos: error
         })
     }
 };
 
-export const postUsers = async (req, response) => {
-  try {
-    const { correo, nombre, tipoUsuario, documentoIdentidad, contrasenia, fotoPerfil } = req.body;
-    const password = await bcrypt.hash(contrasenia, 10);
-    const newUser = await userModel.create({
-        nombre,
-        correo,
-        tipoUsuario,
-        documentoIdentidad,
-        fotoPerfil,
-        contrasenia: password,
-    });
-
-    return response.status(201).json({
-        estado: "201",
-        mensaje: "Usuario creado correctamente",
-        datos: newUser,
-    });
-  } catch (error) {
-    return response.status(400).json({
-        estado: "400",
-        mensaje: "Ocurrió un error al crear usuario",
-        datos: error,
-    });
-  }
-};
-
-export const getUserById = async (req, res) => {
+export const postUser = async (req, res) => {
     try {
-        let idUser = req.params._id
-        if(idUser === ':id' ){
-            return res.json({
-                mensaje: 'Debe ingresar un id válido',
-                id: idUser
-            })
-        }
+        const {correo, nombre, documentoIdentidad, contrasenia} = req.body;
+        const encriptContrasenia = await bcrypt.hash(contrasenia, 10);
+        const newUser = await userModel.create({
+            correo,
+            nombre,
+            documentoIdentidad,
+            contrasenia: encriptContrasenia
 
-        const userById = await userModel.findById(idUser);
-
-        if(!userById){
-            return res.status(200).json({
-                estado: '200',
-                mensaje: "No se encontró el usuario",
-                dato: userById
-            })
-        }
-
-
-        return res.status(200).json({
-            estado: '200',
-            mensaje: 'Se encontró el usuario buscado',
-            usuario: userById
+        });
+        return res.status(201).json({
+            estado: '201',
+            mensaje: 'Usuario creado correctamente',
+            datos: newUser
         })
-
     } catch (error) {
         return res.status(400).json({
             estado: '400',
-            mensaje: 'Ocurrió un problema al buscar el usuario',
-            datos: error,
+            mensaje: 'Ocurrió un problema al crear un usuario',
+            datos: error
         })
     }
 };
 
-
-export const deleteUserById = async (req, res) => {
-  try {
-    let idUser = req.params._id;
-    let userDeleted = await userModel.findByIdAndDelete(idUser);
-    if (!userDeleted) {
-      return res
-        .status(404)
-        .json({ 
-            estado:'404',
-            mensaje: 'No se encontró el usuario',
-            datos: userDeleted
-         });
+export const getUserByEmail =  async (req, res) => {
+    try {
+        let emailUser = req.params.email;
+        console.log(emailUser)
+        const userByEmail = await userModel.findOne({correo: emailUser});
+        if (!userByEmail) {
+            return res.status(200).json({
+                estado: '200',
+                mensaje: "No se encontró el usuario " + userByEmail,
+                dato: userByEmail
+            });
+        }
+        return res.status(200).json({
+            estado: '200',
+            mensaje: 'Se encontró el usuario buscado',
+            usuario: userByEmail
+        });
+    } catch (error) {
+        return res.status(400).json({
+            estado: '400',
+            mensaje: 'Ocurrió un problema al buscar un solo usuario',
+            datos: error,
+        });
     }
-    return res.status(200).json({ 
-        estado:'200',
-        mensaje: 'Usuario eliminado Correctamente',
-        datos: userDeleted
-     });
-  } catch (error) {
-    return res.status(400).json({ 
-        estado: '400',
-        mensaje: 'Ocurrió un problema al eliminar usuario',
-        datos: error,
-     });
-  }
 };
 
 export const putUserById = async (req, res) => {
-  try {
-    let userUpdated = await userModel.findByIdAndUpdate(req.params._id, req.body, {new: true});
-    if (!userUpdated) {
-      return res
-        .status(404)
-        .json({ 
-            estado:'404',
-            mensaje: 'No se encontró el usuario',
+    try {
+        let userId = req.params.id
+        const userData = req.body
+        const userUpdated = await userModel.findByIdAndUpdate(userId, userData);
+        if (!userId || userId === ':_id') {
+            return res.json({
+                mensaje: 'Debe ingresar un id de usuario válido',
+                email: emailForGet
+            });
+        }
+        return res.status(200).json({
+            estado: '200',
+            mensaje:'Se actualizó correctamente el usuario',
             datos: userUpdated
-         });
+        })
+        
+    } catch (error) {
+        return res.status(400).json({
+            estado: '400',
+            mensaje: 'Ocurrió un problema al actualizar usuario',
+            datos: error,
+        })
     }
-    return res
-      .status(200)
-      .json({ 
-        estado:'200',
-        mensaje: 'Usuario actualizado Correctamente',
-        datos: userUpdated
-       });
-  } catch (error) {
-    return res.status(500).json({ 
-        estado: '400',
-        mensaje: 'Ocurrió un problema al actualizar usuario',
-        datos: error,
-     });
-  }
-};
+}
+
+export const deleteUserById = async (req, res) => {
+    try {
+     let userId = req.params.id
+     const userDeleted = await userModel.findByIdAndDelete(userId);
+     if (!userId || userId === ':_id') {
+        return res.json({
+            mensaje: 'Debe ingresar un id de usuario válido',
+            email: userId
+        });
+     }
+     return res.status(200).json({
+         estado:'200',
+         mensaje: 'Usuario eliminado Correctamente',
+         datos: null
+     })
+    } catch (error) {
+     return res.status(400).json({
+         estado: '400',
+         mensaje: 'Ocurrió un problema al eliminar usuario',
+         datos: error,
+     })
+    }
+ }

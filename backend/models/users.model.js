@@ -10,9 +10,9 @@ const userSchema = new schema({
         type: String,
         require:true
     },
-    tipoUsuario : {
-        type:String,
-        default: ''
+    admin : {
+        type: Boolean,
+        default: false
     },
     documentoIdentidad : {
         type:String,
@@ -21,9 +21,6 @@ const userSchema = new schema({
     contrasenia: {
         type: String,
         require: true
-    },
-    fotoPerfil: {
-        type: String
     }
 });
 
