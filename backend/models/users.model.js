@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 
-const schema = mongoose.Schema;
-const userSchema = new schema({
+const userSchema = new mongoose.Schema({
     correo : {
         type: String,
-        require:true
+        require:true,
+        unique: true
     },
     nombre : {
         type: String,

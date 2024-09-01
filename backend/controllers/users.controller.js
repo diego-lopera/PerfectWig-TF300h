@@ -1,5 +1,4 @@
 import { userModel } from "../models/users.model.js";
-import bcrypt from "bcryptjs";
 
 export const getUsers = async (req, res) => {
     try {
@@ -26,30 +25,30 @@ export const getUsers = async (req, res) => {
     }
 };
 
-export const postUser = async (req, res) => {
-    try {
-        const {correo, nombre, documentoIdentidad, contrasenia} = req.body;
-        const encriptContrasenia = await bcrypt.hash(contrasenia, 10);
-        const newUser = await userModel.create({
-            correo,
-            nombre,
-            documentoIdentidad,
-            contrasenia: encriptContrasenia
+// export const postUser = async (req, res) => {
+//     try {
+//         const {correo, nombre, documentoIdentidad, contrasenia} = req.body;
+//         const encriptContrasenia = await bcrypt.hash(contrasenia, 10);
+//         const newUser = await userModel.create({
+//             correo,
+//             nombre,
+//             documentoIdentidad,
+//             contrasenia: encriptContrasenia
 
-        });
-        return res.status(201).json({
-            estado: '201',
-            mensaje: 'Usuario creado correctamente',
-            datos: newUser
-        })
-    } catch (error) {
-        return res.status(400).json({
-            estado: '400',
-            mensaje: 'Ocurrió un problema al crear un usuario',
-            datos: error
-        })
-    }
-};
+//         });
+//         return res.status(201).json({
+//             estado: '201',
+//             mensaje: 'Usuario creado correctamente',
+//             datos: newUser
+//         })
+//     } catch (error) {
+//         return res.status(400).json({
+//             estado: '400',
+//             mensaje: 'Ocurrió un problema al crear un usuario',
+//             datos: error
+//         })
+//     }
+// };
 
 export const getUserByEmail =  async (req, res) => {
     try {

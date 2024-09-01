@@ -5,9 +5,9 @@ import { generateToken } from '../lib/jwt.js';
 const loginService = async (req, res) => {
 
     try {
-        const { email, password } = req.body;
+        const { correo, contrasenia } = req.body;
         const userFound = await userModel.findOne({
-            correo: email
+            correo: correo
         });
         if (!userFound) {
             return res.status(404).json({
@@ -15,7 +15,7 @@ const loginService = async (req, res) => {
                 mensaje: 'Usuario no encontrado, por favor registrarse'
             })
         }
-        const isValidPassword = await bcrypt.compare(password, userFound.contrasenia);
+        const isValidPassword = await bcrypt.compare(contrasenia, userFound.contrasenia);
         if (!isValidPassword) {
             return res.status(400).json({
                 estado: '400',
@@ -39,8 +39,7 @@ const loginService = async (req, res) => {
     } catch (error) {
         return res.status(400).json({
             estado: '400',
-            mensaje: 'Hubo un error al intentar iniciar sesión',
-            error: error.message || error
+            mensaje: 'Hubo un error al intentar iniciar sesión'
         });
     }
 

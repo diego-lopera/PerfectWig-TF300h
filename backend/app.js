@@ -15,7 +15,7 @@ connDbMongo();
 
 app.use(express.json());
 app.use('/products', productsRouter);
-app.use('/users',usersRouter);
+app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 
 app.listen(port, ()=>{
