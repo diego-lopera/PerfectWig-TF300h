@@ -41,8 +41,8 @@ export const getProductById = async (req, res) => {
 };
 
 export const postProducts = async (req, res) => {
-    const { nombre, precio, imagen, stock, descripcion } = req.body;
-    if (!nombre || !precio || !stock) {
+    const { nombre, precio, imagen, stock, descripcion, categoria } = req.body;
+    if (!nombre || !precio || !stock || !categoria) {
         return res.status(400).json({ message: 'Información incompleta' });
     }
     try {

@@ -8,10 +8,10 @@ productsRouter.get('/',getProducts);
 
 productsRouter.get('/:_id', getProductById);
 
-productsRouter.post('/',auth('admin'),postProducts);
+productsRouter.post('/',postProducts);
 
-productsRouter.delete('/:_id',auth('admin'),deleteProductById);
+productsRouter.delete('/:_id',deleteProductById);
 
-productsRouter.put('/:_id',auth('admin'),putProductById);
+productsRouter.put('/:_id',putProductById);
 
 export default productsRouter;

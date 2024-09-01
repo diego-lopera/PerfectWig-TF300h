@@ -19,6 +19,10 @@ const productSchema = new schema({
     },
     descripcion : {
         type:String
+    },
+    categoria: {
+        type: String,
+        require: true
     }
 });
 
