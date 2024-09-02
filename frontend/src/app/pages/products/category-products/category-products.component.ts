@@ -16,6 +16,8 @@ import { ToastMessageModule } from '../../../components/navigation/toast-message
 export class CategoryProductsComponent implements OnInit {
   category: string = '';
   products: Product[] = [];
+  selectedProduct: Product | null = null;
+  quantity: number = 1;
   showToast: boolean = false;
   toastMessage: string = '';
 
@@ -48,12 +50,27 @@ export class CategoryProductsComponent implements OnInit {
   }
 
   viewDetails(product: Product) {
-    // Lógica para abrir el modal de detalles del producto
+    this.selectedProduct = product;
+    this.quantity = 1;
   }
 
-  addToCart(product: Product) {
-    this.cartService.addToCart(product);
-    this.showToastMessage('Producto añadido al carrito de compras');
+  closeModal() {
+    this.selectedProduct = null;
+  }
+
+  increaseQuantity() {
+    this.quantity++;
+  }
+
+  decreaseQuantity() {
+    if (this.quantity > 1) {
+      this.quantity--;
+    }
+  }
+
+  addToCart(product: Product, quantity: number = 1) {
+    this.cartService.addToCart(product, quantity);
+    this.showToastMessage(`${product.nombre} añadido al carrito (${quantity} unidades)`);
   }
 
   showToastMessage(message: string) {

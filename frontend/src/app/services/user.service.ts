@@ -2,23 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { Product } from '../interfaces/product.interface';
 import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
-  private apiUrl = 'http://localhost:3000/products';
+export class UserService {
+  private apiUrl = 'http://localhost:3000/login';
 
   constructor(private http: HttpClient, private toastrService: ToastrService, private router: Router) { }
 
-  getProducts(): Observable<any> {
-    return this.http.get<Product[]>(this.apiUrl);
+  register(user: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, user);
   }
-
-  addProduct(product: any): Observable<any> {
-    return this.http.post(this.apiUrl, product);
-  }
-  
 }

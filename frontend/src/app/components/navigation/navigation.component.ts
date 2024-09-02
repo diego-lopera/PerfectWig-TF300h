@@ -1,10 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
-import {  FormGroup, ReactiveFormsModule, FormControl } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Login } from '../../interfaces/login';
 import { CartService } from '../../services/cart.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-navigation',
@@ -13,7 +14,7 @@ import { CartService } from '../../services/cart.service';
   templateUrl: './navigation.component.html',
   styleUrl: './navigation.component.css',
 })
-export class NavigationComponent {
+export class NavigationComponent implements OnInit {
   isCartModalOpen = false;
   isLoginModalOpen = false;
   isUserModalOpen = false;
@@ -28,20 +29,21 @@ export class NavigationComponent {
   toggleNavbar() {
     this.navbarOpen = !this.navbarOpen;
   }
-  
+
   private authService = inject(AuthService);
   private cartService = inject(CartService);
+  private userService = inject(UserService);
 
   loginForm = new FormGroup({
-    correo: new FormControl(''),
-    contrasenia: new FormControl('')
+    correo: new FormControl('', Validators.required),
+    contrasenia: new FormControl('', Validators.required)
   });
 
   registerForm = new FormGroup({
-    correo: new FormControl('h'),
-    contrasenia: new FormControl('j'),
-    nombre: new FormControl('k'),
-    documentoIdentidad: new FormControl('l')
+    correo: new FormControl('', Validators.required),
+    nombre: new FormControl('', Validators.required),
+    documentoIdentidad: new FormControl('', Validators.required),
+    contrasenia: new FormControl('', Validators.required)
   });
 
   ngOnInit() {
@@ -49,7 +51,7 @@ export class NavigationComponent {
     this.isLoggedIn = this.authService.isLogged();
   }
 
-  getCredentials(){
+  getCredentials() {
     const correo = this.loginForm.value.correo;
     const contrasenia = this.loginForm.value.contrasenia;
 
@@ -57,7 +59,7 @@ export class NavigationComponent {
       const validateCredentials: Login = {
         correo,
         contrasenia
-      }
+      };
       return validateCredentials;
     }
     return null;
@@ -108,54 +110,63 @@ export class NavigationComponent {
   logout() {
     this.isLoggedIn = false;
     this.authService.logout();
+    this.userName = '';
+    this.userEmail = '';
     this.closeUserModal();
   }
 
   onLoginSubmit() {
     const credentials = this.getCredentials();
-    console.log(credentials);
     if (credentials) {
       this.authService.login(credentials).subscribe({
         next: (res: any) => {
-          console.log('Respuesta del servidor:', res);
           if (res && res.token) {
             localStorage.setItem('token', res.token);
             this.isAdmin = this.authService.isAdmin();
             this.isLoggedIn = true;
             this.authService.setLoggedInStatus(true);
+            this.userName = res.user.nombre; // Actualiza el nombre del usuario
+            this.userEmail = res.user.correo; // Actualiza el correo del usuario
             this.closeLoginModal();
           } else {
             console.error('Token no generado en la respuesta');
           }
         },
-        error: (err)=>{
-          alert(err.error.message)
+        error: (err) => {
+          alert(err.error.message);
           this.loginForm.reset();
         }
-      })
+      });
     }
   }
 
   navigateToAdminPage() {
     this.closeUserModal();
-    window.location.href= '/admin';
+    window.location.href = '/admin';
   }
 
   onRegisterSubmit() {
-    // if (this.registerForm.valid) {
-    //   this.authService.register(this.registerForm.value.correo, this.registerForm.value.contrasenia, this.registerForm.value.nombre, this.registerForm.value.documentoIdentidad).subscribe(response => {
-    //     this.userEmail = response.user.correo;
-    //     this.userName = response.user.nombre;
-    //     this.isLoggedIn = true;
-    //     this.closeRegisterModal();
-    //     this.openUserModal();
-    //   });
-    // }
+    if (this.registerForm.valid) {
+      this.userService.register(this.registerForm.value).subscribe({
+        next: (response) => {
+          this.userEmail = response.user.correo;
+          this.userName = response.user.nombre;
+          this.isLoggedIn = true;
+          this.closeRegisterModal();
+          this.openUserModal();
+        },
+        error: (err) => {
+          alert(err.error.message);
+          this.registerForm.reset();
+        }
+      });
+    }
   }
 
   constructor(private router: Router) {}
+
   navigateToSection(section: string) {
-    this.router.navigate(['/products'], { fragment: section});
+    this.router.navigate(['/products'], { fragment: section });
   }
 
   get cart() {
@@ -169,5 +180,4 @@ export class NavigationComponent {
   clearCart() {
     this.cartService.clearCart();
   }
-
 }

@@ -8,13 +8,13 @@ export class CartService {
   cart: any[] = [];
   total: number = 0;
 
-  addToCart(product: Product) {
+  addToCart(product: Product, quantity: number = 1) {
     const existingProduct = this.cart.find(item => item.nombre === product.nombre);
     if (existingProduct) {
-      existingProduct.cantidad += 1;
+      existingProduct.cantidad += quantity;
       existingProduct.subtotal = existingProduct.cantidad * existingProduct.precio;
     } else {
-      this.cart.push({ ...product, cantidad: 1, subtotal: product.precio });
+      this.cart.push({ ...product, cantidad: quantity, subtotal: product.precio * quantity });
     }
     this.calculateTotal();
   }

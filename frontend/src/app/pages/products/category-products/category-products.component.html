@@ -18,3 +18,20 @@
   </div>
 </div>
 <app-toast-message [message]="toastMessage" [show]="showToast"></app-toast-message>
+
+<!-- Modal para ver detalles del producto -->
+<div *ngIf="selectedProduct" class="modal">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">×</span>
+    <img [src]="selectedProduct.imagen" alt="producto {{ selectedProduct.nombre }}">
+    <h2>{{ selectedProduct.nombre }}</h2>
+    <p>{{ selectedProduct.descripcion }}</p>
+    <label>{{ selectedProduct.precio | currency:'COP' }}</label>
+    <div class="quantity-selector">
+      <button (click)="decreaseQuantity()">-</button>
+      <span>{{ quantity }}</span>
+      <button (click)="increaseQuantity()">+</button>
+    </div>
+    <button (click)="addToCart(selectedProduct, quantity)">Añadir al carrito</button>
+  </div>
+</div>

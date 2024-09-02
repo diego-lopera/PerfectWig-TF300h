@@ -42,12 +42,20 @@ export const getProductById = async (req, res) => {
 
 export const postProducts = async (req, res) => {
     const { nombre, precio, imagen, stock, descripcion, categoria } = req.body;
-    if (!nombre || !precio || !stock || !categoria) {
+    if (!nombre || !precio || !stock || !categoria || !imagen) {
         return res.status(400).json({ message: 'Información incompleta' });
     }
     try {
-        const newProduct = await productModel.create(req.body);
-        return res.status(201).json(newProduct);
+        const newProduct = new productModel({
+            nombre,
+            precio,
+            imagen,
+            stock,
+            descripcion,
+            categoria
+          });
+          await newProduct.save();
+          return res.status(201).json(newProduct);
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }
