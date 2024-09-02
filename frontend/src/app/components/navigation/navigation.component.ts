@@ -1,9 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import {  FormGroup, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Login } from '../../interfaces/login';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-navigation',
@@ -29,6 +30,7 @@ export class NavigationComponent {
   }
   
   private authService = inject(AuthService);
+  private cartService = inject(CartService);
 
   loginForm = new FormGroup({
     correo: new FormControl(''),
@@ -150,4 +152,22 @@ export class NavigationComponent {
     //   });
     // }
   }
+
+  constructor(private router: Router) {}
+  navigateToSection(section: string) {
+    this.router.navigate(['/products'], { fragment: section});
+  }
+
+  get cart() {
+    return this.cartService.cart;
+  }
+
+  get total() {
+    return this.cartService.total;
+  }
+
+  clearCart() {
+    this.cartService.clearCart();
+  }
+
 }

@@ -1,14 +1,5 @@
-<div *ngFor="let category of categories">
-    <div class="containerLabelSeccionProductos">
-      <label class="labelSeccionProductos">{{ category }}</label>
-    </div>
-    <div class="containerSectionProducts">
-      <div *ngFor="let product of getProductsByCategory(category)" class="containerProducts">
-        <img [src]="product.imagen" alt="producto {{ product.nombre }}">
-        <label>{{ product.nombre }}</label>
-        <label>{{ product.precio | currency:'COP' }}</label>
-      </div>
-    </div>
+<div class="products-container">
+    <router-outlet></router-outlet>
   </div>
   
     

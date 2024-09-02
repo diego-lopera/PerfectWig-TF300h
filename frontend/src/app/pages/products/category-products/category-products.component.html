@@ -1,0 +1,20 @@
+<div class="containerLabelSeccionProductos">
+  <label class="labelSeccionProductos">{{ category }}</label>
+</div>
+<div class="containerSectionProducts">
+  <div *ngIf="products.length === 0" class="no-products">
+    Productos no disponibles
+  </div>
+  <div *ngFor="let product of products" class="containerProducts">
+    <div class="product-image-container">
+      <img [src]="product.imagen" alt="producto {{ product.nombre }}">
+      <div class="overlay">
+        <button (click)="viewDetails(product)">Ver detalles</button>
+        <button (click)="addToCart(product)">Añadir al carrito</button>
+      </div>
+    </div>
+    <label>{{ product.nombre }}</label>
+    <label>{{ product.precio | currency:'COP' }}</label>
+  </div>
+</div>
+<app-toast-message [message]="toastMessage" [show]="showToast"></app-toast-message>

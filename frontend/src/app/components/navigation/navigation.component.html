@@ -18,8 +18,11 @@
       /></a>
     </div>
     <div class="user-actions-bar">
-      <img src="assets/User.png" alt="Cart" (click)="openCartModal()"/>
-      <img src="assets/User.png" alt="User" (click)="handleUserClick()"/>
+      <div class="cart-icon-container">
+        <img src="assets/User.png" alt="Cart" (click)="openCartModal()" />
+        <span class="cart-badge" *ngIf="cart.length > 0">{{ cart.length }}</span>
+      </div>
+      <img src="assets/User.png" alt="User" (click)="handleUserClick()" />
     </div>
   </div>
   <nav class="navbar">
@@ -34,16 +37,16 @@
     </div>
     <div class="navbar-links" [class.open]="navbarOpen">
       <div class="row">
-        <a routerLink="/inicio">INICIO</a>
-        <a routerLink="/productos">EXTENSIONES SEMINATURALES</a>
-        <a routerLink="/productos">PELUCAS SEMINATURALES</a>
-        <a routerLink="/productos">COLETAS SEMINATURALES</a>
+        <a routerLink="/">INICIO</a>
+        <a routerLink="/productos/extensiones-seminaturales">EXTENSIONES SEMINATURALES</a>
+        <a routerLink="/productos/pelucas-seminaturales">PELUCAS SEMINATURALES</a>
+        <a routerLink="/productos/coletas-seminaturales">COLETAS SEMINATURALES</a>
       </div>
       <div class="row">
-        <a routerLink="/productos">LÍNEA DE PRODUCTOS PERFECT</a>
-        <a routerLink="/productos">PELUCAS HUMANAS</a>
-        <a routerLink="/productos">EXTENSIONES HUMANAS</a>
-        <a routerLink="/productos">FRONTALES HUMANOS</a>
+        <a routerLink="/productos/linea-perfect">LÍNEA DE PRODUCTOS PERFECT</a>
+        <a routerLink="/productos/pelucas-humanas">PELUCAS HUMANAS</a>
+        <a routerLink="/productos/extensiones-humanas">EXTENSIONES HUMANAS</a>
+        <a routerLink="/productos/frontales-humanos">FRONTALES HUMANOS</a>
       </div>
     </div>
   </nav>
@@ -97,31 +100,33 @@
     </div>
   </div> -->
 
-<div class="modal" tabindex="-1" role="dialog" *ngIf="isCartModalOpen">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Resumen del Carrito de Compras</h5>
-        <button type="button" class="close" (click)="closeCartModal()">
-          <span>&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- Aquí iría el contenido del carrito de compras -->
-        <p>Tu carrito está vacío.</p>
-      </div>
-      <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-secondary"
-          (click)="closeCartModal()"
-        >
-          Cerrar
-        </button>
+  <div class="custom-modal" tabindex="-1" role="dialog" *ngIf="isCartModalOpen">
+    <div class="custom-modal-dialog" role="document">
+      <div class="custom-modal-content">
+        <div class="custom-modal-header">
+          <h5 class="custom-modal-title">Resumen del Carrito de Compras</h5>
+          <button type="button" class="custom-close" (click)="closeCartModal()">
+            <span>×</span>
+          </button>
+        </div>
+        <div class="custom-modal-body">
+          <div *ngIf="cart.length === 0">
+            <p>Tu carrito está vacío.</p>
+          </div>
+          <div *ngFor="let item of cart">
+            <p>{{ item.nombre }} - {{ item.cantidad }} x {{ item.precio | currency:'COP' }} = {{ item.subtotal | currency:'COP' }}</p>
+          </div>
+          <p>Total: {{ total | currency:'COP' }}</p>
+        </div>
+        <div class="custom-modal-footer">
+          <button type="button" class="custom-btn custom-btn-secondary" (click)="clearCart()">Limpiar Carrito</button>
+          <button type="button" class="custom-btn custom-btn-secondary" (click)="closeCartModal()">Cerrar</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
+  
+  
 
 <!-- Modal Login -->
 <div class="modal" tabindex="-1" role="dialog" *ngIf="isLoginModalOpen">
