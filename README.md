@@ -2,7 +2,7 @@
 <h1 align="center">Perfect Wig</h1>
 
 <!-- Subtítulo -->
-<p align="center"><em>Entrega 2, 300Hrs</em></p>
+<p align="center"><em>Entrega Final, 300Hrs</em></p>
 
 <!-- Separador -->
 <hr>
